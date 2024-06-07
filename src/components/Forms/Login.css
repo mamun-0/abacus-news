@@ -1,0 +1,10 @@
+.btn_login {
+  background: linear-gradient(90deg, #c71919 10%, #000851 100%);
+}
+.bg_login {
+  background: linear-gradient(
+    90deg,
+    rgba(9, 9, 121, 0.8491771708683473) 11%,
+    rgba(8, 6, 68, 0.9416141456582633) 36%
+  );
+}
