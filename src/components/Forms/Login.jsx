@@ -31,12 +31,14 @@ export function Login() {
   }
   async function handleSignin() {
     try {
-      const {user: { email, displayName }} = await signInWithGoogle()
-      await axiosCommon.post("/user", { email, name: displayName })
-      navigate(`${location.state || "/"}`);
-      toast.success("Login Successfully"); 
+      const {
+        user: { email, displayName },
+      } = await signInWithGoogle();
+      await axiosCommon.post("/user", { email, name: displayName });
+      navigate(location.state || "/");
+      toast.success("Login Successfully");
     } catch (_) {
-      toast.error("Welcome back!");
+      toast.success("Welcome back!");
     }
   }
   return (
