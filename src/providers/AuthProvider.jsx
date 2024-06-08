@@ -11,7 +11,8 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-
+import { useAxios } from "../hooks/useAxios";
+const axiosCommon = useAxios();
 // Create Auth-Context
 export const AuthContext = createContext(null);
 
@@ -20,31 +21,24 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
-    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email, password) => {
-    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const signInWithGoogle = () => {
     const googleProvider = new GoogleAuthProvider();
-    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
   const resetPassword = (email) => {
-    setLoading(true);
     return sendPasswordResetEmail(auth, email);
   };
 
   const logOut = async () => {
-    setLoading(true);
-    await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
-      withCredentials: true,
-    });
+    localStorage.removeItem("access-token");
     return signOut(auth);
   };
 
@@ -55,20 +49,19 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const getToken = async (email) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/jwt`,
-      { email },
-      { withCredentials: true }
-    );
-    return data;
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        // getToken(currentUser.email);
+        const userInfo = { email: currentUser.email };
+        axiosCommon.post("/jwt", userInfo).then((res) => {
+          const { token } = res.data;
+          if (token) {
+            localStorage.setItem("access-token", token);
+          } else {
+            localStorage.removeItem("access-token");
+          }
+        });
       }
       setLoading(false);
     });
