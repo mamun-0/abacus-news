@@ -66,7 +66,7 @@ export function AddArticle({ uploadPhoto }) {
             </Legend>
             <Field>
               <Label className="text-sm/6 font-medium text-white">Title</Label>
-              <FormGroup errorMessage={errors?.name?.message}>
+              <FormGroup errorMessage={errors?.title?.message}>
                 <Input
                   {...register("title", {
                     required: { value: true, message: "Required" },
