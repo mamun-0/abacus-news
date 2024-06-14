@@ -5,7 +5,13 @@ export function Heading({ title = "", subheading = "" }) {
         {title}
       </h2>
 
-      {subheading ? <p className="text-xl text-stone-500">{subheading}</p> : ""}
+      {subheading ? (
+        <div className="flex justify-center">
+          <p className="text-xl w-1/2 text-stone-500">{subheading}</p>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
