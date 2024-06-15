@@ -2,21 +2,17 @@ import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 import { useController, useForm } from "react-hook-form";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import MultiSelect from "react-select";
-import {
-  Field,
-  Fieldset,
-  Input,
-  Label,
-  Legend,
-  Select,
-  Textarea,
-} from "@headlessui/react";
-import clsx from "clsx";
+import { Field, Input, Label, Select, Textarea } from "@headlessui/react";
 import { toast } from "react-toastify";
 import { FormGroup } from "../FormGroup/FormGroup";
+import React, { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { Spinner } from "flowbite-react";
 
 export function AddArticle({ uploadPhoto }) {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -37,6 +33,7 @@ export function AddArticle({ uploadPhoto }) {
     { value: "other", label: "Other" },
   ];
   async function onSubmit(data) {
+    setLoading(true);
     const { title, description, publisher, tags, image } = data;
     const formData = new FormData();
     formData.append("image", image[0]);
@@ -48,112 +45,123 @@ export function AddArticle({ uploadPhoto }) {
         description,
         tags,
         publisher,
+        email: user?.email,
       });
       toast.success("Article posted");
-      reset();
+      reset({
+        title: "",
+        tags: "",
+        publisher: "",
+        description: "",
+        image: "",
+      });
     } catch (_) {
       toast.error("Failed to post.");
+    } finally {
+      setLoading(false);
     }
   }
   return (
     <div className="flex justify-center">
       {/* Start headless form component */}
       <form onSubmit={handleSubmit(onSubmit)} className="w-1/2">
-        <div className="w-full max-w-xl px-4 bg-black my-4 rounded-md">
-          <Fieldset className="space-y-6 rounded-xl bg-white/5 p-6 sm:p-10">
-            <Legend className="text-base/7 text-center font-semibold text-white">
-              Add Article Form
-            </Legend>
+        <div className="w-full space-y-4">
+          {/* Title Field */}
+          <FormGroup errorMessage={errors?.title?.message}>
             <Field>
-              <Label className="text-sm/6 font-medium text-white">Title</Label>
-              <FormGroup errorMessage={errors?.title?.message}>
-                <Input
-                  {...register("title", {
-                    required: { value: true, message: "Required" },
-                  })}
-                  className={clsx(
-                    "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                    "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-                  )}
-                />
-              </FormGroup>
+              <Label className="font-medium">Title</Label>
+              <Input
+                placeholder="Title"
+                className="border border-slate-500 block w-full rounded-md p-2"
+                {...register("title", {
+                  required: { value: true, message: "Required" },
+                })}
+              />
             </Field>
+          </FormGroup>
+          {/* Publisher field */}
+          <div className="relative">
+            <FormGroup errorMessage={errors?.publisher?.message}>
+              <Field>
+                <Label className="font-medium">Publisher</Label>
+              </Field>
+              <Select
+                className="rounded-md"
+                {...register("publisher", {
+                  required: { value: true, message: "Required" },
+                })}
+              >
+                <option value="">Choose</option>
+                {["BBC", "TechCrunch", "Scientific American"].map(
+                  (pub, idx) => (
+                    <option key={idx} value={pub}>
+                      {pub}
+                    </option>
+                  )
+                )}
+              </Select>
+            </FormGroup>
+            <ChevronDownIcon
+              className="group pointer-events-none absolute top-5 right-2.5 size-4 fill-white/60"
+              aria-hidden="true"
+            />
+          </div>
+          {/* Image Field */}
+          <FormGroup errorMessage={errors?.image?.message}>
             <Field>
-              <Label className="text-sm/6 font-medium text-white">
-                Select Publisher
-              </Label>
-              <div className="relative">
-                <FormGroup errorMessage={errors?.publisher?.message}>
-                  <Select
-                    className={clsx(
-                      "mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                      "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
-                      "*:text-black"
-                    )}
-                    {...register("publisher", {
-                      required: { value: true, message: "Required" },
-                    })}
-                  >
-                    <option value="">Choose</option>
-                    {["BBC", "TechCrunch", "Scientific American"].map(
-                      (pub, idx) => (
-                        <option key={idx} value={pub}>
-                          {pub}
-                        </option>
-                      )
-                    )}
-                  </Select>
-                </FormGroup>
-                <ChevronDownIcon
-                  className="group pointer-events-none absolute top-5 right-2.5 size-4 fill-white/60"
-                  aria-hidden="true"
+              <Label className="font-medium">Upload Photo</Label>
+            </Field>
+            <div className="mt-2">
+              <input
+                className="block w-full border"
+                type="file"
+                {...register("image", {
+                  required: { value: true, message: "Required" },
+                })}
+              />
+            </div>
+          </FormGroup>
+
+          {/* Tags field */}
+          <FormGroup errorMessage={errors?.tags?.message}>
+            <Field>
+              <Label className="font-medium">Tags</Label>
+            </Field>
+            <MultiSelect isMulti options={tagOptions} {...selectTags} />
+          </FormGroup>
+
+          {/* Description field*/}
+          <FormGroup errorMessage={errors?.description?.message}>
+            <Field>
+              <Label className="font-medium">Description</Label>
+            </Field>
+            <Textarea
+              className="rounded-md"
+              placeholder="Leave a brif description here..."
+              {...register("description", {
+                required: { value: true, message: "Required" },
+              })}
+            ></Textarea>
+          </FormGroup>
+          <button
+            disabled={loading}
+            className={`${
+              loading ? "cursor-not-allowed bg-red-600" : "bg-blue-600"
+            } p-2 text-white  hover:bg-blue-800 rounded-md`}
+          >
+            {loading ? (
+              <div className="flex">
+                <Spinner
+                  className="mr-2"
+                  aria-label="Alternate spinner button example"
+                  size="sm"
                 />
+                Posting...
               </div>
-            </Field>
-            <Field>
-              <Label className="text-sm/6 font-medium text-white">
-                Upload Image
-              </Label>
-              <FormGroup errorMessage={errors?.image?.message}>
-                <Input
-                  type="file"
-                  {...register("image", {
-                    required: { value: true, message: "Required" },
-                  })}
-                  className={clsx(
-                    "mt-3 block w-full rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                    "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-                  )}
-                />
-              </FormGroup>
-            </Field>
-            <Field>
-              <Label className="text-sm/6 font-medium text-white">Tags</Label>
-              <FormGroup errorMessage={errors?.tags?.message}>
-                <MultiSelect isMulti options={tagOptions} {...selectTags} />
-              </FormGroup>
-            </Field>
-            <Field>
-              <Label className="text-sm/6 font-medium text-white">
-                Desciption
-              </Label>
-              <FormGroup errorMessage={errors?.description?.message}>
-                <Textarea
-                  {...register("description", {
-                    required: { value: true, message: "Required" },
-                  })}
-                  className={clsx(
-                    "mt-3 block w-full resize-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white",
-                    "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-                  )}
-                  rows={3}
-                />
-              </FormGroup>
-            </Field>
-            <button className="rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700">
-              Submit
-            </button>
-          </Fieldset>
+            ) : (
+              "Post"
+            )}
+          </button>
         </div>
       </form>
     </div>
