@@ -1,0 +1,33 @@
+[
+  {
+    "id": 0,
+    "days": 5,
+    "price": 5,
+    "features": [
+      "Get premium features",
+      "Valid only for 5 days",
+      "View premium posts"
+    ]
+  },
+  {
+    "id": 1,
+    "days": 5,
+    "price": 10,
+    "features": [
+      "Get premium features",
+      "Valid only for 5 days",
+      "View premium posts end edit"
+    ]
+  },
+  {
+    "id": 2,
+    "days": 10,
+    "price": 20,
+    "features": [
+      "Get access all premium features",
+      "Valid only for 10 days",
+      "No restriction",
+      "Ability to contact with admin"
+    ]
+  }
+]
