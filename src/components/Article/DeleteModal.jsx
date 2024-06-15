@@ -78,17 +78,17 @@ export function DeleteModal({ _id, title, image, publisher, refetch }) {
           <button
             onClick={handleDelete}
             disabled={loading}
-            className="w-24 p-2 bg-red-500 text-white hover:bg-red-700"
+            className="p-2 bg-red-500 text-white hover:bg-red-700"
           >
             {loading ? (
-              <>
+              <div className="flex">
                 <Spinner
                   className="mr-2"
                   aria-label="Alternate spinner button example"
                   size="sm"
                 />
                 Deleting...
-              </>
+              </div>
             ) : (
               "Delete"
             )}

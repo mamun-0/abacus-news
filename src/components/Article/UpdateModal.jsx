@@ -222,14 +222,14 @@ export function UpdateModal({
               } p-2 text-white  hover:bg-blue-800 rounded-md`}
             >
               {loading ? (
-                <>
+                <div className="flex">
                   <Spinner
                     className="mr-2"
                     aria-label="Alternate spinner button example"
                     size="sm"
                   />
                   Updating...
-                </>
+                </div>
               ) : (
                 "Update"
               )}
