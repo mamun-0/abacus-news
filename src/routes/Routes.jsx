@@ -10,6 +10,7 @@ import { Subscribe } from "../Pages/Subscribe";
 import { Home } from "../Pages/Home";
 import { UpdateProfile } from "../Pages/UpdateProfile";
 import { MyArticles } from "../Pages/MyArticles";
+import { Premium } from "../Pages/Premium";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +67,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <UpdateProfile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "premium",
+        element: (
+          <ProtectedRoute>
+            <Premium />
           </ProtectedRoute>
         ),
       },
