@@ -9,7 +9,7 @@ export function ArticleCard({
 }) {
   return (
     <div className="h-96 w-80 border-2 p-1 flex flex-col justify-around">
-      <h2 className="text-xl text-center">{title}</h2>
+      <h2 className="text-xl text-center font-bold">{title}</h2>
       <img className="w-full h-3/5 object-cover" src={image} alt="" />
       <h2 className="text-lg">
         <span className="font-semibold">Publusher</span>: {publisher}
