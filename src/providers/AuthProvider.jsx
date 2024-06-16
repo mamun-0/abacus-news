@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
-import axios from "axios";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -12,37 +11,43 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useAxios } from "../hooks/useAxios";
-const axiosCommon = useAxios();
 // Create Auth-Context
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  const axiosCommon = useAxios();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const signInWithGoogle = () => {
+    setLoading(true);
     const googleProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleProvider);
   };
 
   const resetPassword = (email) => {
+    setLoading(true);
     return sendPasswordResetEmail(auth, email);
   };
 
   const logOut = async () => {
+    setLoading(true);
     localStorage.removeItem("access-token");
     return signOut(auth);
   };
 
   const updateUserProfile = (name, photo) => {
+    setLoading(true);
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
