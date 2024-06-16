@@ -1,6 +1,7 @@
 import { Badge } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { HiCheck } from "react-icons/hi";
+
 export function ArticleCard({
   _id,
   title,
@@ -8,7 +9,10 @@ export function ArticleCard({
   publisher,
   description,
   premium,
+  premiumUser,
 }) {
+  const isActive = !premium || (premium && premiumUser === "premium");
+
   return (
     <div
       className={`${
@@ -21,7 +25,7 @@ export function ArticleCard({
       </div>
       <img className="w-full h-3/5 object-cover" src={image} alt="" />
       <h2 className="text-lg">
-        <span className="font-semibold">Publusher</span>: {publisher}
+        <span className="font-semibold">Publisher</span>: {publisher}
       </h2>
       <div className="h-8 overflow-y-hidden">
         <p className="text-lg">
@@ -29,8 +33,13 @@ export function ArticleCard({
         </p>
       </div>
       <Link
-        to={_id}
-        className="text-center rounded bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
+        to={isActive ? `/all-articles/${_id}` : "#"}
+        className={`text-center rounded py-2 px-4 text-sm text-white 
+          ${
+            isActive
+              ? "bg-sky-600 hover:bg-sky-500 active:bg-sky-700"
+              : "bg-gray-400 pointer-events-none cursor-not-allowed"
+          }`}
       >
         View Details
       </Link>

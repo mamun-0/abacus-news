@@ -3,11 +3,14 @@ import { useAxios } from "../../hooks/useAxios";
 import { ArticleCard } from "./ArticleCard";
 import qs from "qs";
 import { Heading } from "../Heading/Heading";
+import { useAxiosSecure } from "../../hooks/useAxiosSecure";
+import { useAuth } from "../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 export function ArticleView() {
+  const { user, loading } = useAuth();
   const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const axiosCommon = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [qString, setQueryString] = useState({
     tags: "",
     title: "",
@@ -27,10 +30,7 @@ export function ArticleView() {
       .then(({ data }) => {
         setArticles(data);
       })
-      .catch(() => {
-        setError(true);
-      })
-      .finally(() => setLoading(false));
+      .catch(() => {});
   }, [qString]);
 
   // Helper function
@@ -40,7 +40,21 @@ export function ArticleView() {
       [key]: value,
     }));
   }
-  if (loading) return "Loading";
+  const {
+    data: premium,
+    error,
+    isPending,
+  } = useQuery({
+    queryKey: ["checkPremium"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.post(`/checkpremium`, {
+        email: user?.email,
+      });
+      return data.message;
+    },
+    enabled: !!user?.email,
+  });
+  if (isPending) return "Loading";
   if (error) return "Something went wrong.";
   return (
     <div>
@@ -77,7 +91,9 @@ export function ArticleView() {
       ) : (
         <div className="mt-7 grid gap-0 md:gap-4 grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => {
-            return <ArticleCard key={article._id} {...article} />;
+            return (
+              <ArticleCard key={article._id} {...article} premiumUser={premium} />
+            );
           })}
         </div>
       )}
