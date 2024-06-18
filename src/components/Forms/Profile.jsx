@@ -8,7 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 export function Profile() {
-  const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();Checkbox
   const { user, updateUserProfile } = useAuth();
   const [profileUpdate, setProfileUpdate] = useState();
   const [updateLoading, setUpdateLoading] = useState(false);
