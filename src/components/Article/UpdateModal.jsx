@@ -63,7 +63,6 @@ export function UpdateModal({
     setIsOpen(false);
   }
   async function onSubmit(incomingFormData) {
-    console.log(incomingFormData);
     setLoading(true);
     const formData = new FormData();
     if (incomingFormData?.image) {

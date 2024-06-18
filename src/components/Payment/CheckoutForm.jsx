@@ -11,7 +11,6 @@ export const CheckoutForm = ({ clientSecret, closeModal, days }) => {
   const [complete, setComplete] = useState(false);
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
-  console.log(days);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -38,18 +37,13 @@ export const CheckoutForm = ({ clientSecret, closeModal, days }) => {
       });
 
     if (error) {
-      console.log("[error]", error);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
     }
     if (paymentIntentError) {
-      console.log("Payment intent error ", paymentIntentError);
     } else {
-      console.log("Payment intent", paymentIntent);
       axiosSecure
         .post("/premium", { days, email: user?.email })
         .then(({ data }) => {
-          console.log(data);
         });
       toast.success("Payment successfully");
     }

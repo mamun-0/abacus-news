@@ -35,7 +35,6 @@ export function Register() {
       toast.success("Created Successfully");
       navigate("/");
     } catch (_) {
-      console.log(_);
       toast.error("Already exist. Failed to create.");
     }
   }
