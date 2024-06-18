@@ -1,22 +1,21 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/useAuth";
 import { FormGroup } from "../FormGroup/FormGroup";
-import { Checkbox, FloatingLabel, Label } from "flowbite-react";
+import { Checkbox, FloatingLabel, Label, Spinner } from "flowbite-react";
 import { FileInput } from "flowbite-react";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 export function Profile() {
-  console.log("Auth change");
   const axiosSecure = useAxiosSecure();
-  const { user, updateUserProfile, loading } = useAuth();
+  const { user, updateUserProfile } = useAuth();
   const [profileUpdate, setProfileUpdate] = useState();
+  const [updateLoading, setUpdateLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       name: user?.displayName,
@@ -25,6 +24,7 @@ export function Profile() {
   });
 
   async function onSubmit(incomingFormData) {
+    setUpdateLoading(true);
     const { email } = incomingFormData;
     if (profileUpdate) {
       const { image, name } = incomingFormData;
@@ -37,8 +37,11 @@ export function Profile() {
         );
         const { display_url } = data.data;
         await updateUserProfile(name, display_url);
-        await axiosSecure.post("/user", { email, name });
-        toast.success("Update Successfully");
+        const payload = { image: display_url, name };
+        const {
+          data: { message },
+        } = await updateProfileIntoDatabase(email, payload);
+        toast.success(message);
       } catch (_) {
         toast.error("Failed to update.");
       }
@@ -46,13 +49,23 @@ export function Profile() {
       const { name } = incomingFormData;
       const { photoURL } = user;
       try {
-        await axiosSecure.post("/user", { email, name });
         await updateUserProfile(name, photoURL);
-        toast.success("Update Successfully");
+        const payload = { name };
+        const {
+          data: { message },
+        } = await updateProfileIntoDatabase(email, payload);
+        toast.success(message);
       } catch (_) {
         toast.error("Failed to update.");
       }
     }
+    setUpdateLoading(false);
+  }
+  async function updateProfileIntoDatabase(email, payload) {
+    return axiosSecure.put("/user", {
+      email,
+      payload,
+    });
   }
   return (
     <div className="h-[60vh] flex justify-center items-center">
@@ -98,7 +111,19 @@ export function Profile() {
           ) : (
             ""
           )}
-          <button className="bg-blue-600 p-2 w-24 rounded-md text-white hover:bg-blue-700">
+          <button
+          disabled={updateLoading}
+            className={`${
+              updateLoading
+                ? "cursor-not-allowed bg-red-600"
+                : "bg-blue-600"
+            } p-2 w-24 rounded-md text-white hover:bg-blue-700`}
+          >
+            {updateLoading ? (
+              <Spinner aria-label="Spinner button example" size="sm" />
+            ) : (
+              ""
+            )}{" "}
             Update
           </button>
         </form>
