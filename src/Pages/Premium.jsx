@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "../hooks/useAxiosSecure";
-import { PremiumArticleCard } from "../components/PremiumArticleCard";
+import { PremiumArticleCard } from "../components/Article/PremiumArticleCard";
 import { Heading } from "../components/Heading/Heading";
 export function Premium() {
   const axiosSecure = useAxiosSecure();
@@ -15,7 +15,6 @@ export function Premium() {
       return data;
     },
   });
-  console.log(premium);
   if (isPending) return "Loading";
   if (error) return "Something went wrong.";
   return (
