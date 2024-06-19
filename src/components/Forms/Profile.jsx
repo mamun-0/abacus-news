@@ -7,9 +7,10 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
+import { auth } from "../../firebase/firebase.config";
 export function Profile() {
-  const axiosSecure = useAxiosSecure();Checkbox
-  const { user, updateUserProfile } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const { user, updateUserProfile, setUser } = useAuth();
   const [profileUpdate, setProfileUpdate] = useState();
   const [updateLoading, setUpdateLoading] = useState(false);
   const {
@@ -37,6 +38,7 @@ export function Profile() {
         );
         const { display_url } = data.data;
         await updateUserProfile(name, display_url);
+        setUser({ ...auth.currentUser });
         const payload = { image: display_url, name };
         const {
           data: { message },
@@ -112,11 +114,9 @@ export function Profile() {
             ""
           )}
           <button
-          disabled={updateLoading}
+            disabled={updateLoading}
             className={`${
-              updateLoading
-                ? "cursor-not-allowed bg-red-600"
-                : "bg-blue-600"
+              updateLoading ? "cursor-not-allowed bg-red-600" : "bg-blue-600"
             } p-2 w-24 rounded-md text-white hover:bg-blue-700`}
           >
             {updateLoading ? (

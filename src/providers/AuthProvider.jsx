@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const axiosCommon = useAxios();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signInWithGoogle = () => {
-    setLoading(true);
     const googleProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleProvider);
   };
@@ -41,13 +40,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logOut = async () => {
-    setLoading(true);
     localStorage.removeItem("access-token");
     return signOut(auth);
   };
 
   const updateUserProfile = (name, photo) => {
-    setLoading(true);
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
@@ -77,6 +74,7 @@ export const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
+    setUser,
     loading,
     setLoading,
     createUser,
