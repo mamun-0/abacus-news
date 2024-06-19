@@ -3,14 +3,12 @@ import { useAxios } from "../../hooks/useAxios";
 import { ArticleCard } from "./ArticleCard";
 import qs from "qs";
 import { Heading } from "../Heading/Heading";
-import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 export function ArticleView() {
   const { user, loading } = useAuth();
   const [articles, setArticles] = useState([]);
   const axiosCommon = useAxios();
-  const axiosSecure = useAxiosSecure();
   const [qString, setQueryString] = useState({
     tags: "",
     title: "",
@@ -47,12 +45,12 @@ export function ArticleView() {
   } = useQuery({
     queryKey: ["checkPremium"],
     queryFn: async () => {
-      const { data } = await axiosSecure.post(`/checkpremium`, {
+      const { data } = await axiosCommon.post(`/checkpremium`, {
         email: user?.email,
       });
       return data.message;
     },
-    enabled: !!user?.email,
+    enabled: !loading,
   });
   if (isPending) return "Loading";
   if (error) return "Something went wrong.";
@@ -92,7 +90,11 @@ export function ArticleView() {
         <div className="mt-7 grid gap-0 md:gap-4 grid-cols-1 justify-items-center md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => {
             return (
-              <ArticleCard key={article._id} {...article} premiumUser={premium} />
+              <ArticleCard
+                key={article._id}
+                {...article}
+                premiumUser={premium}
+              />
             );
           })}
         </div>
