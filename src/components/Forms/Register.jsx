@@ -31,7 +31,7 @@ export function Register() {
       );
       const { display_url } = data.data;
       await updateUserProfile(name, display_url);
-      await axiosCommon.post("/user", { email, name });
+      await axiosCommon.post("/user", { email, name, image:display_url });
       toast.success("Created Successfully");
       navigate("/");
     } catch (_) {

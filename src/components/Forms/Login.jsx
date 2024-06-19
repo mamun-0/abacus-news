@@ -32,9 +32,13 @@ export function Login() {
   async function handleSignin() {
     try {
       const {
-        user: { email, displayName },
+        user: { email, displayName, photoURL },
       } = await signInWithGoogle();
-      await axiosCommon.post("/user", { email, name: displayName });
+      await axiosCommon.post("/user", {
+        email,
+        name: displayName,
+        image: photoURL,
+      });
       navigate(location.state || "/");
       toast.success("Login Successfully");
     } catch (_) {
