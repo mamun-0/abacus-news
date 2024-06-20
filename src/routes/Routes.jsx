@@ -11,6 +11,9 @@ import { Home } from "../Pages/Home";
 import { UpdateProfile } from "../Pages/UpdateProfile";
 import { MyArticles } from "../Pages/MyArticles";
 import { Premium } from "../Pages/Premium";
+import { Dashboard } from "../Layouts/Dashboard";
+import { Users } from "../Pages/Dashboard/users";
+import { AllArticle } from "../Pages/Dashboard/allArticle";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -78,6 +81,18 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      {
+        path: "users",
+        element: <Users />,
+      },
+      { path: "articles", element: <AllArticle /> },
+      { path: "publisher", element: <>Publisher</> },
     ],
   },
 ]);
