@@ -6,7 +6,8 @@
     "features": [
       "Get premium features",
       "Valid only for 5 days",
-      "View premium posts"
+      "View premium posts",
+      "Unlimited posts"
     ]
   },
   {
@@ -16,7 +17,7 @@
     "features": [
       "Get premium features",
       "Valid only for 5 days",
-      "View premium posts end edit"
+      "Unlimited posts"
     ]
   },
   {
@@ -27,7 +28,20 @@
       "Get access all premium features",
       "Valid only for 10 days",
       "No restriction",
-      "Ability to contact with admin"
+      "Ability to contact with admin by email",
+      "Unlimited posts"
+    ]
+  },
+  {
+    "id": 3,
+    "days": 10,
+    "price": 25,
+    "features": [
+      "Get access all premium features",
+      "Valid only for 10 days",
+      "No restriction",
+      "Ability to contact with admin by phone",
+      "Unlimited posts"
     ]
   }
 ]
