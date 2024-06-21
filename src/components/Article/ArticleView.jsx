@@ -6,8 +6,10 @@ import { Heading } from "../Heading/Heading";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 export function ArticleView() {
   const { user, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [articles, setArticles] = useState([]);
   const axiosCommon = useAxios();
   const [qString, setQueryString] = useState({
@@ -53,6 +55,13 @@ export function ArticleView() {
     },
     enabled: !loading,
   });
+  const { data: publishers = [] } = useQuery({
+    queryKey: ["getpublisher"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/publisher");
+      return data;
+    },
+  });
   if (isPending) return "Loading";
   if (error) return "Something went wrong.";
   return (
@@ -68,8 +77,9 @@ export function ArticleView() {
           }}
         >
           <option value="">Choose Publisher</option>
-          <option value="TechCrunch">TechCrunch</option>
-          <option value="BBC">BBC</option>
+          {publishers.map((publisher) => {
+            return <option value={publisher.name}>{publisher.name}</option>;
+          })}
         </select>
         <select
           onChange={(e) => {
@@ -77,7 +87,11 @@ export function ArticleView() {
           }}
         >
           <option value="">Choose Tags</option>
+          <option value="tech">Tech</option>
           <option value="science">Science</option>
+          <option value="medical">Medical</option>
+          <option value="politics">Politics</option>
+          <option value="war">War</option>
           <option value="other">Other</option>
         </select>
         <input

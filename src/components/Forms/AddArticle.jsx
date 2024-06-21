@@ -34,7 +34,10 @@ export function AddArticle({ uploadPhoto }) {
   const tagOptions = [
     { value: "tech", label: "Tech" },
     { value: "science", label: "Science" },
-    { value: "health", label: "Health" },
+    { value: "medical", label: "Medical" },
+    { value: "politics", label: "Politics" },
+    { value: "history", label: "History" },
+    { value: "war", label: "War" },
     { value: "other", label: "Other" },
   ];
   async function onSubmit(data) {
