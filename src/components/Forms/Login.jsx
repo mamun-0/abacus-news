@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormGroup } from "../FormGroup/FormGroup";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 export function Login() {
   const { signInWithGoogle, signIn } = useAuth();
   const axiosCommon = useAxios();
@@ -47,6 +48,9 @@ export function Login() {
   }
   return (
     <div className="flex flex-col justify-center items-center h-screen bg_login">
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       <div className="md:w-1/3 bg-black h-3/5 flex flex-col justify-evenly p-5 rounded-lg">
         <div className="flex justify-center">
           <button

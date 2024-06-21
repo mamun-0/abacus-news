@@ -4,6 +4,7 @@ import axios from "axios";
 import { Heading } from "../components/Heading/Heading";
 import { Banner } from "../components/Payment/Banner";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 
 export function Subscribe() {
   const [filtered, setFiltered] = useState([]);
@@ -40,6 +41,9 @@ export function Subscribe() {
 
   return (
     <div>
+      <Helmet>
+        <title>Subscribe</title>
+      </Helmet>
       <Banner />
       <Heading title="Be A Premium User" />
       <div className="flex justify-center my-7">

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 import { Heading } from "../../components/Heading/Heading";
 import { UsersTable } from "../../components/Dashboard/usersTable";
+import { Helmet } from "react-helmet";
 
 export function Users() {
   const axiosSecure = useAxiosSecure();
@@ -24,6 +25,9 @@ export function Users() {
   }
   return (
     <div>
+      <Helmet>
+        <title>Users</title>
+      </Helmet>
       <Heading
         title="All Users Dashboard"
         subheading={`Total users : ${users.length}`}

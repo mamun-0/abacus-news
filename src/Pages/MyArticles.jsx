@@ -3,6 +3,7 @@ import { Heading } from "../components/Heading/Heading";
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "../hooks/useAxiosSecure";
 import { useAuth } from "../hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 export function MyArticles() {
   const { user } = useAuth();
@@ -20,6 +21,9 @@ export function MyArticles() {
 
   return (
     <div>
+      <Helmet>
+        <title>My Articles</title>
+      </Helmet>
       <Heading title="My Articles" />
       <ArticleTable data={data.data.message} refetch={refetch} />
     </div>

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { FormGroup } from "../FormGroup/FormGroup";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export function Register() {
   const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
@@ -53,6 +54,9 @@ export function Register() {
   }
   return (
     <div className="flex flex-col justify-center items-center h-screen bg_login">
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
       <div className="md:w-1/3 bg-black flex flex-col justify-evenly p-5 rounded-lg">
         <div className="flex justify-center mb-3">
           <button

@@ -5,6 +5,7 @@ import qs from "qs";
 import { Heading } from "../Heading/Heading";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 export function ArticleView() {
   const { user, loading } = useAuth();
   const [articles, setArticles] = useState([]);
@@ -56,6 +57,9 @@ export function ArticleView() {
   if (error) return "Something went wrong.";
   return (
     <div>
+      <Helmet>
+        <title>Approved Articles</title>
+      </Helmet>
       <Heading title="All Approved Articles" />
       <div className="flex justify-center p-2 sm:p-0 space-x-0 sm:space-x-2 sm:space-y-0 space-y-2 flex-col sm:flex-row">
         <select

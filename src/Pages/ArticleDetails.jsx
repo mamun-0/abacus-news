@@ -3,6 +3,7 @@ import { useAxiosSecure } from "../hooks/useAxiosSecure";
 import { ArticleDetailsCard } from "../components/Article/ArticleDetailsCard";
 import { useQuery } from "@tanstack/react-query";
 import { Heading } from "../components/Heading/Heading";
+import { Helmet } from "react-helmet";
 
 export function ArticleDetails() {
   const { id } = useParams();
@@ -22,6 +23,9 @@ export function ArticleDetails() {
   if (error) return "Something went wrong!";
   return (
     <div>
+      <Helmet>
+        <title>Articles Details</title>
+      </Helmet>
       <Heading title="Article Details" />
       <div className="flex justify-center">
       <ArticleDetailsCard {...item} />

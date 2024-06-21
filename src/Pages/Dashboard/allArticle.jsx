@@ -25,6 +25,9 @@ export function AllArticle() {
   if (error) return "Something went wrong";
   return (
     <div className="space-y-2">
+      <Helmet>
+        <title>All Articles</title>
+      </Helmet>
       <Heading
         title="All Article"
         subheading={`Total Posts : ${allUsers.length}`}
