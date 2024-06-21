@@ -1,0 +1,46 @@
+.height-100vh {
+  height: 100vh;
+}
+.height-50 {
+  height: 50%;
+}
+.bg-sky {
+  background-color: rgb(30, 129, 176);
+}
+.bg-desert {
+  background-color: rgb(107, 102, 30);
+}
+.place-center {
+  top: 35%;
+  left: 30%;
+}
+
+@media only screen and (max-width: 650px) {
+  .place-center img {
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .place-center img {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+  }
+  .place-center{
+    top: 35%;
+    left: 30%;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .place-center img {
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+  }
+  .place-center{
+    top: 40%;
+    left: 30%;
+  }
+}
