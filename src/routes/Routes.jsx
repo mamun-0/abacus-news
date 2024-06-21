@@ -14,11 +14,14 @@ import { Premium } from "../Pages/Premium";
 import { Dashboard } from "../Layouts/Dashboard";
 import { Users } from "../Pages/Dashboard/users";
 import { AllArticle } from "../Pages/Dashboard/allArticle";
+import { PublisherPage } from "../Pages/Dashboard/publisher";
+import { Error404 } from "../Pages/Error/Error404";
+import { PremiumRoute } from "./PremiumRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    errorElement: <>Error Page</>,
+    errorElement: <Error404 />,
     children: [
       {
         path: "/",
@@ -77,7 +80,9 @@ export const router = createBrowserRouter([
         path: "premium",
         element: (
           <ProtectedRoute>
-            <Premium />
+            <PremiumRoute>
+              <Premium />
+            </PremiumRoute>
           </ProtectedRoute>
         ),
       },
@@ -92,7 +97,7 @@ export const router = createBrowserRouter([
         element: <Users />,
       },
       { path: "articles", element: <AllArticle /> },
-      { path: "publisher", element: <>Publisher</> },
+      { path: "publisher", element: <PublisherPage /> },
     ],
   },
 ]);
