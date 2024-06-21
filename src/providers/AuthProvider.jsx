@@ -17,6 +17,7 @@ export const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const axiosCommon = useAxios();
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState();
   const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
@@ -64,6 +65,11 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("access-token");
           }
         });
+        axiosCommon
+          .post("/checkAdmin", { email: currentUser.email })
+          .then(({ data }) => {
+            setUserRole(data.message.role);
+          });
       }
       setLoading(false);
     });
@@ -83,6 +89,8 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     logOut,
     updateUserProfile,
+    userRole,
+    setUserRole,
   };
 
   return (
