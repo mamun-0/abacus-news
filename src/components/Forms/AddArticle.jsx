@@ -1,13 +1,13 @@
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 import { useController, useForm } from "react-hook-form";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import MultiSelect from "react-select";
-import { Field, Input, Label, Select, Textarea } from "@headlessui/react";
+import { Field, Input, Label, Textarea } from "@headlessui/react";
 import { toast } from "react-toastify";
 import { FormGroup } from "../FormGroup/FormGroup";
 import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Spinner } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
 
 export function AddArticle({ uploadPhoto }) {
   const axiosSecure = useAxiosSecure();
@@ -26,6 +26,11 @@ export function AddArticle({ uploadPhoto }) {
     control,
     rules: { required: { value: true, message: "Required" } },
   });
+  const { field: selectPublisher } = useController({
+    name: "publisher",
+    control,
+    rules: { required: { value: true, message: "Required" } },
+  });
   const tagOptions = [
     { value: "tech", label: "Tech" },
     { value: "science", label: "Science" },
@@ -33,6 +38,7 @@ export function AddArticle({ uploadPhoto }) {
     { value: "other", label: "Other" },
   ];
   async function onSubmit(data) {
+    console.log(data);
     setLoading(true);
     const { title, description, publisher, tags, image } = data;
     const formData = new FormData();
@@ -44,7 +50,7 @@ export function AddArticle({ uploadPhoto }) {
         image: display_url,
         description,
         tags,
-        publisher,
+        publisher: publisher.value,
         email: user?.email,
       });
       toast.success("Article posted");
@@ -61,6 +67,34 @@ export function AddArticle({ uploadPhoto }) {
       setLoading(false);
     }
   }
+  const {
+    data: publishers = [],
+    error,
+    isPending,
+  } = useQuery({
+    queryKey: ["getpublisher"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/publisher");
+      return data;
+    },
+  });
+  if (isPending) return "Loading";
+  if (error) return "Something went wrong";
+
+  const publisherOptions = publishers.map((publisher) => ({
+    value: publisher.name,
+    label: (
+      <div className="flex items-center">
+        <img
+          src={publisher.logo}
+          alt={publisher.name}
+          style={{ width: "20px", height: "20px", marginRight: "8px" }}
+        />
+        {publisher.name}
+      </div>
+    ),
+  }));
+
   return (
     <div className="flex justify-center">
       {/* Start headless form component */}
@@ -85,26 +119,18 @@ export function AddArticle({ uploadPhoto }) {
               <Field>
                 <Label className="font-medium">Publisher</Label>
               </Field>
-              <Select
-                className="rounded-md"
-                {...register("publisher", {
-                  required: { value: true, message: "Required" },
-                })}
-              >
-                <option value="">Choose</option>
-                {["BBC", "TechCrunch", "Scientific American"].map(
-                  (pub, idx) => (
-                    <option key={idx} value={pub}>
-                      {pub}
-                    </option>
-                  )
-                )}
-              </Select>
+              <MultiSelect
+                className="basic-single"
+                classNamePrefix="select"
+                defaultValue={null}
+                isClearable
+                options={publisherOptions}
+                {...selectPublisher}
+                // {...register("publisher", {
+                //   required: { value: true, message: "Required" },
+                // })}
+              />
             </FormGroup>
-            <ChevronDownIcon
-              className="group pointer-events-none absolute top-5 right-2.5 size-4 fill-white/60"
-              aria-hidden="true"
-            />
           </div>
           {/* Image Field */}
           <FormGroup errorMessage={errors?.image?.message}>
@@ -137,7 +163,7 @@ export function AddArticle({ uploadPhoto }) {
             </Field>
             <Textarea
               className="rounded-md"
-              placeholder="Leave a brif description here..."
+              placeholder="Leave a brief description here..."
               {...register("description", {
                 required: { value: true, message: "Required" },
               })}
@@ -156,10 +182,10 @@ export function AddArticle({ uploadPhoto }) {
                   aria-label="Alternate spinner button example"
                   size="sm"
                 />
-                Posting...
+                Submitting...
               </div>
             ) : (
-              "Post"
+              "Submit"
             )}
           </button>
         </div>
