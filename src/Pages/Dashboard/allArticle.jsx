@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArticleTable } from "../../components/Dashboard/articleTable";
 import { Heading } from "../../components/Heading/Heading";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
-
+import { Helmet } from "react-helmet";
 export function AllArticle() {
   const axiosSecure = useAxiosSecure();
   async function handleUpdate(id, queryText, payload) {
