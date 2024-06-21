@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from "react";
 
@@ -53,6 +53,14 @@ export function Sidebar() {
               className="block w-full hover:bg-blue-500 p-1 md:p-2 bg-blue-600"
             >
               Add Publisher
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/"
+              className="block w-full hover:bg-blue-500 p-1 md:p-2 bg-blue-600"
+            >
+              Back to Home
             </NavLink>
           </li>
         </ul>
