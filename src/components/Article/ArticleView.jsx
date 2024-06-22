@@ -6,10 +6,8 @@ import { Heading } from "../Heading/Heading";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
-import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 export function ArticleView() {
   const { user, loading } = useAuth();
-  const axiosSecure = useAxiosSecure();
   const [articles, setArticles] = useState([]);
   const axiosCommon = useAxios();
   const [qString, setQueryString] = useState({
@@ -58,7 +56,7 @@ export function ArticleView() {
   const { data: publishers = [] } = useQuery({
     queryKey: ["getpublisher"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/publisher");
+      const { data } = await axiosCommon.get("/publisher");
       return data;
     },
   });
