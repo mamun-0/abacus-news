@@ -25,11 +25,11 @@ export function Sidebar() {
           toggle
             ? "block opacity-100 translate-x-0"
             : "opacity-0 -translate-x-full"
-        } absolute z-10 w-52 h-screen md:relative md:translate-x-0 md:opacity-100 md:block bg-gray-800`}
+        } absolute z-10 w-52 md:relative md:translate-x-0 md:opacity-100 md:block bg-gray-800`}
       >
-        <h2 className="text-center text-white font-semibold md:text-xl bg-orange-400 p-2">
+        <Link to="/dashboard" className="block text-center text-white font-semibold md:text-xl bg-orange-400 p-2">
           DASHBOARD
-        </h2>
+        </Link>
         <ul className="md:text-lg text-center divide-y-2">
           <li>
             <NavLink
