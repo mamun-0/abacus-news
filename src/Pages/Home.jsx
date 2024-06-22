@@ -4,6 +4,8 @@ import { Heading } from "../components/Heading/Heading";
 import { PublisherSection } from "../components/PublisherSection";
 import { StatisticSection } from "../components/StatisticSection";
 import { PlanCard } from "../components/PlanCard";
+import { SpecialReport } from "../components/SpecialReport/SpecialReport";
+import { Environment } from "../components/Environment/Environment";
 
 export function Home() {
   return (
@@ -24,6 +26,10 @@ export function Home() {
         subheading="Normal user can post only one. Premium user can post unlimited."
       />
       <PlanCard />
+      <Heading title="Special Report" />
+      <SpecialReport />
+      <Heading title="Environment" />
+      <Environment />
     </div>
   );
 }
