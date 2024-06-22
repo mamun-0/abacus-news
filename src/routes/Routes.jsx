@@ -17,6 +17,7 @@ import { AllArticle } from "../Pages/Dashboard/allArticle";
 import { PublisherPage } from "../Pages/Dashboard/publisher";
 import { Error404 } from "../Pages/Error/Error404";
 import { PremiumRoute } from "./PremiumRoute";
+import { PublicationCharts } from "../Pages/Dashboard/PublicationCharts";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -92,6 +93,7 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
     children: [
+      {index:true, element:<PublicationCharts/>},
       {
         path: "users",
         element: <Users />,
