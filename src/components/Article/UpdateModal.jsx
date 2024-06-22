@@ -1,4 +1,4 @@
-import { Field, Label, Input, Select, Textarea } from "@headlessui/react";
+import { Field, Label, Input, Textarea } from "@headlessui/react";
 import { useState } from "react";
 import Modal from "react-modal";
 import { FormGroup } from "../FormGroup/FormGroup";
@@ -10,6 +10,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Spinner } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
 
 const customStyles = {
   content: {
@@ -103,12 +104,46 @@ export function UpdateModal({
     control,
     rules: { required: { value: true, message: "Required" } },
   });
+  const { field: selectPublisher } = useController({
+    name: "publisher",
+    control,
+    rules: { required: { value: true, message: "Required" } },
+  });
   const tagOptions = [
     { value: "tech", label: "Tech" },
     { value: "science", label: "Science" },
-    { value: "health", label: "Health" },
+    { value: "medical", label: "Medical" },
+    { value: "politics", label: "Politics" },
+    { value: "history", label: "History" },
+    { value: "war", label: "War" },
     { value: "other", label: "Other" },
   ];
+  const {
+    data: publishers = [],
+    error,
+    isPending,
+  } = useQuery({
+    queryKey: ["getpublisher"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/publisher");
+      return data;
+    },
+  });
+  if (isPending) return "Loading";
+  if (error) return "Something went wrong";
+  const publisherOptions = publishers.map((publisher) => ({
+    value: publisher.name,
+    label: (
+      <div className="flex items-center">
+        <img
+          src={publisher.logo}
+          alt={publisher.name}
+          style={{ width: "20px", height: "20px", marginRight: "8px" }}
+        />
+        {publisher.name}
+      </div>
+    ),
+  }));
   return (
     <div>
       <button
@@ -149,21 +184,14 @@ export function UpdateModal({
                 <Field>
                   <Label className="font-medium">Publisher</Label>
                 </Field>
-                <Select
-                  className="rounded-md"
-                  {...register("publisher", {
-                    required: { value: true, message: "Required" },
-                  })}
-                >
-                  <option value="">Choose</option>
-                  {["BBC", "TechCrunch", "Scientific American"].map(
-                    (pub, idx) => (
-                      <option key={idx} value={pub}>
-                        {pub}
-                      </option>
-                    )
-                  )}
-                </Select>
+                <MultiSelect
+                  className="basic-single"
+                  classNamePrefix="select"
+                  defaultValue={null}
+                  isClearable
+                  options={publisherOptions}
+                  {...selectPublisher}
+                />
               </FormGroup>
               <ChevronDownIcon
                 className="group pointer-events-none absolute top-5 right-2.5 size-4 fill-white/60"

@@ -128,9 +128,6 @@ export function AddArticle({ uploadPhoto }) {
                 isClearable
                 options={publisherOptions}
                 {...selectPublisher}
-                // {...register("publisher", {
-                //   required: { value: true, message: "Required" },
-                // })}
               />
             </FormGroup>
           </div>
