@@ -11,7 +11,6 @@ export function PlanCard() {
       .get("/premiumcard.json")
       .then(({ data }) => {
         setPlan(data);
-        console.log(data);
       })
       .catch(() => {})
       .finally(() => {

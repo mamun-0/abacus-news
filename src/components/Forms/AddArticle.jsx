@@ -41,7 +41,6 @@ export function AddArticle({ uploadPhoto }) {
     { value: "other", label: "Other" },
   ];
   async function onSubmit(data) {
-    console.log(data);
     setLoading(true);
     const { title, description, publisher, tags, image } = data;
     const formData = new FormData();

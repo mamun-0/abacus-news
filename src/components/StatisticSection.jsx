@@ -25,7 +25,6 @@ export function StatisticSection() {
   const background_3 = {
     background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
   };
-  console.log(statistic);
   return (
     <div className="mt-3 mx-3 grid gap-4  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center">
       <div

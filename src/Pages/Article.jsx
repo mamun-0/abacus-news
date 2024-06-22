@@ -37,7 +37,6 @@ export function Article() {
     enabled: !!user,
   });
   if (isPending) return "Loading...";
-  console.log(articleObj);
   if (articleObj.role === "admin" || articleObj.role === "premium")
     return (
       <div>
