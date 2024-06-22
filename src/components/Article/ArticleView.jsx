@@ -75,8 +75,8 @@ export function ArticleView() {
           }}
         >
           <option value="">Choose Publisher</option>
-          {publishers.map((publisher) => {
-            return <option value={publisher.name}>{publisher.name}</option>;
+          {publishers.map((publisher, idx) => {
+            return <option key={idx} value={publisher.name}>{publisher.name}</option>;
           })}
         </select>
         <select
