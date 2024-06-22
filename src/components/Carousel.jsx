@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Carousel } from 'flowbite-react'; // Assuming you're using flowbite-react for the Carousel component
+import { Carousel } from 'flowbite-react';
 import { useAxios } from '../hooks/useAxios';
 import { Link } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ export function CarouselComponent() {
       <Carousel>
         {trendingArticle.map((article) => (
           <div
-            key={article.id} // Ensure each child in a list has a unique key prop
+            key={article._id}
             className="flex items-center justify-center h-full"
             style={{
               backgroundImage: `url(${article.image})`,
