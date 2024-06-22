@@ -1,25 +1,44 @@
-import { Carousel } from "flowbite-react";
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Carousel } from 'flowbite-react'; // Assuming you're using flowbite-react for the Carousel component
+import { useAxios } from '../hooks/useAxios';
+import { Link } from 'react-router-dom';
 
 export function CarouselComponent() {
+  const axiosCommon = useAxios();
+  const {
+    data: trendingArticle = [],
+    isPending,
+    error,
+  } = useQuery({
+    queryKey: ['trendingArticle'],
+    queryFn: async () => {
+      const { data } = await axiosCommon.get('/trendingArticles');
+      return data;
+    },
+  });
+
+  if (isPending) return 'Loading';
+
   return (
     <div className="h-56 sm:h-[70vh]">
       <Carousel>
-        <img
-          className="object-cover h-full"
-          src="https://www.surfholidays.com/assets/images/blog/2017-04-12-Depositphotos_44844877_original.jpg"
-        />
-        <img
-          className="object-cover h-full"
-          src="https://discover.centurylink.com/wp-content/uploads/2021/08/shutterstock_756686665-2048x1152.jpg"
-        />
-        <img
-          className="object-cover h-full"
-          src="https://storge.pic2.me/upload/303/5fd7469e173bb1.51118220.jpg"
-        />
-        <img
-          className="object-cover h-full"
-          src="https://sfwallpaper.com/images/surfer-wallpaper-1.jpg"
-        />
+        {trendingArticle.map((article) => (
+          <div
+            key={article.id} // Ensure each child in a list has a unique key prop
+            className="flex items-center justify-center h-full"
+            style={{
+              backgroundImage: `url(${article.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+            <Link to={`/all-articles/${article._id}`} className="text-4xl bg-black p-3 underline text-white">
+              {article.title}
+            </Link>
+          </div>
+        ))}
       </Carousel>
     </div>
   );
