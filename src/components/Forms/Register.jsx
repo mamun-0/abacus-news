@@ -32,7 +32,7 @@ export function Register() {
       );
       const { display_url } = data.data;
       await updateUserProfile(name, display_url);
-      await axiosCommon.post("/user", { email, name, image:display_url });
+      await axiosCommon.post("/user", { email, name, image: display_url });
       toast.success("Created Successfully");
       navigate("/");
     } catch (_) {
@@ -95,7 +95,7 @@ export function Register() {
           <FormGroup errorMessage={errors?.password?.message}>
             <input
               className="bg-black p-3  border block w-full text-white"
-              type="text"
+              type="password"
               placeholder="password"
               {...register("password", {
                 required: { value: true, message: "Required" },

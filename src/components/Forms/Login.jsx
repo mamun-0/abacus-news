@@ -79,7 +79,7 @@ export function Login() {
           <FormGroup errorMessage={errors?.password?.message}>
             <input
               className="bg-black p-3  border block w-full text-white"
-              type="text"
+              type="password"
               placeholder="password"
               {...register("password", {
                 required: { value: true, message: "Required" },
