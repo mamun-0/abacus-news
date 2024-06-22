@@ -2,6 +2,7 @@
   {
     "id": 0,
     "days": 5,
+    "name":"Standard Plan",
     "price": 5,
     "features": [
       "Get premium features",
@@ -13,6 +14,7 @@
   {
     "id": 1,
     "days": 5,
+    "name":"Standard Plan",
     "price": 10,
     "features": [
       "Get premium features",
@@ -23,6 +25,7 @@
   {
     "id": 2,
     "days": 10,
+    "name":"Premium Plan",
     "price": 20,
     "features": [
       "Get access all premium features",
@@ -35,6 +38,7 @@
   {
     "id": 3,
     "days": 10,
+    "name":"Premium Plan +",
     "price": 25,
     "features": [
       "Get access all premium features",
