@@ -27,10 +27,10 @@ export function StatisticSection() {
   };
   console.log(statistic);
   return (
-    <div className="mx-3 grid gap-4  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center">
+    <div className="mt-3 mx-3 grid gap-4  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center">
       <div
         style={background_1}
-        className="h-36 bg-black w-full rounded-sm flex justify-center items-center"
+        className="h-36 bg-black w-2/3 md:w-full rounded-sm flex justify-center items-center"
       >
         <h2 className="text-2xl text-white font-bold">
           Normal : <CountUp end={statistic?.normal || 0} duration={10} />
@@ -38,7 +38,7 @@ export function StatisticSection() {
       </div>
       <div
         style={background_2}
-        className="h-36 bg-black w-full rounded-sm flex justify-center items-center"
+        className="h-36 bg-black w-2/3 md:w-full rounded-sm flex justify-center items-center"
       >
         <h2 className="text-2xl text-white font-bold">
           {" "}
@@ -47,7 +47,7 @@ export function StatisticSection() {
       </div>
       <div
         style={background_3}
-        className="h-36 bg-black w-full rounded-sm flex justify-center items-center"
+        className="h-36 bg-black w-2/3 md:w-full rounded-sm flex justify-center items-center"
       >
         <h2 className="text-2xl text-white font-bold">
           {" "}
