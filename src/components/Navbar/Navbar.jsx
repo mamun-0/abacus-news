@@ -16,7 +16,7 @@ export function Navbar() {
               to="/"
               aria-label="Brand"
             >
-              Abacus
+              Abacus News
             </Link>
             <div className="md:hidden">
               <button
