@@ -2,7 +2,7 @@
 
 ## Live Link
 
-``
+`https://abacusnews-a79db.web.app/`
 
 ## Five(+) Features
 
