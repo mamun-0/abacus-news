@@ -1,4 +1,4 @@
-import { Field, Label, Input, Textarea } from "@headlessui/react";
+import { Field, Label, Input, Textarea, Select } from "@headlessui/react";
 import { useState } from "react";
 import Modal from "react-modal";
 import { FormGroup } from "../FormGroup/FormGroup";
@@ -104,11 +104,6 @@ export function UpdateModal({
     control,
     rules: { required: { value: true, message: "Required" } },
   });
-  const { field: selectPublisher } = useController({
-    name: "publisher",
-    control,
-    rules: { required: { value: true, message: "Required" } },
-  });
   const tagOptions = [
     { value: "tech", label: "Tech" },
     { value: "science", label: "Science" },
@@ -131,19 +126,19 @@ export function UpdateModal({
   });
   if (isPending) return "Loading";
   if (error) return "Something went wrong";
-  const publisherOptions = publishers.map((publisher) => ({
-    value: publisher.name,
-    label: (
-      <div className="flex items-center">
-        <img
-          src={publisher.logo}
-          alt={publisher.name}
-          style={{ width: "20px", height: "20px", marginRight: "8px" }}
-        />
-        {publisher.name}
-      </div>
-    ),
-  }));
+  // const publisherOptions = publishers.map((publisher) => ({
+  //   value: publisher.name,
+  //   label: (
+  //     <div className="flex items-center">
+  //       <img
+  //         src={publisher.logo}
+  //         alt={publisher.name}
+  //         style={{ width: "20px", height: "20px", marginRight: "8px" }}
+  //       />
+  //       {publisher.name}
+  //     </div>
+  //   ),
+  // }));
   return (
     <div>
       <button
@@ -184,14 +179,28 @@ export function UpdateModal({
                 <Field>
                   <Label className="font-medium">Publisher</Label>
                 </Field>
-                <MultiSelect
+                <Select
+                  className="mt-1 block"
+                  {...register("publisher", {
+                    required: { value: true, message: "Required" },
+                  })}
+                >
+                  {publishers.map((item) => {
+                    return (
+                      <option key={item._id} selected={item.name == publisher}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                </Select>
+                {/* <MultiSelect
                   className="basic-single"
                   classNamePrefix="select"
                   defaultValue={null}
                   isClearable
                   options={publisherOptions}
                   {...selectPublisher}
-                />
+                /> */}
               </FormGroup>
               <ChevronDownIcon
                 className="group pointer-events-none absolute top-5 right-2.5 size-4 fill-white/60"
