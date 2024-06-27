@@ -7,11 +7,15 @@ import { useForm } from "react-hook-form";
 import { FormGroup } from "../FormGroup/FormGroup";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useState } from "react";
+
+import { Spinner } from "flowbite-react";
 
 export function Register() {
   const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
   const axiosCommon = useAxios();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -19,6 +23,7 @@ export function Register() {
   } = useForm();
 
   async function onSubmit(incomingData) {
+    setIsLoading(true);
     const { email: userEmail, name, password, image } = incomingData;
     const formData = new FormData();
     formData.append("image", image[0]);
@@ -37,6 +42,8 @@ export function Register() {
       navigate("/");
     } catch (_) {
       toast.error("Already exist. Failed to create.");
+    } finally {
+      setIsLoading(false);
     }
   }
   async function handleSignin() {
@@ -134,8 +141,17 @@ export function Register() {
               })}
             />
           </FormGroup>
-          <button className="text-white p-2 w-full border hover:bg-white hover:text-black transition duration-150 ease-out">
-            Register
+          <button
+            disabled={isLoading}
+            className={`${
+              isLoading ? "cursor-not-allowed" : ""
+            } text-white p-2 w-full border hover:bg-white hover:text-black transition duration-150 ease-out`}
+          >
+            {isLoading ? (
+              <Spinner aria-label="Medium sized spinner example" size="md" />
+            ) : (
+              "Register"
+            )}
           </button>
         </form>
       </div>

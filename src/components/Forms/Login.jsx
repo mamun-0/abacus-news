@@ -7,11 +7,14 @@ import { toast } from "react-toastify";
 import { FormGroup } from "../FormGroup/FormGroup";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet";
+import { Spinner } from "flowbite-react";
+import { useState } from "react";
 export function Login() {
   const { signInWithGoogle, signIn } = useAuth();
   const axiosCommon = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,6 +23,7 @@ export function Login() {
   } = useForm();
 
   async function onSubmit(data) {
+    setIsLoading(true);
     const { email, password } = data;
     try {
       await signIn(email, password);
@@ -28,6 +32,8 @@ export function Login() {
       navigate(location.state || "/");
     } catch (_) {
       toast.error("Failed to login");
+    } finally {
+      setIsLoading(false);
     }
   }
   async function handleSignin() {
@@ -107,8 +113,17 @@ export function Login() {
               })}
             />
           </FormGroup>
-          <button className="text-white p-2 w-full border hover:bg-white hover:text-black transition duration-150 ease-out">
-            Login
+          <button
+            disabled={isLoading}
+            className={`${
+              isLoading ? "cursor-not-allowed" : ""
+            } text-white p-2 w-full border hover:bg-white hover:text-black transition duration-150 ease-out`}
+          >
+            {isLoading ? (
+              <Spinner aria-label="Medium sized spinner example" size="md" />
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>
