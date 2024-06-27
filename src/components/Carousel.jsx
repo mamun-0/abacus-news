@@ -1,8 +1,9 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Carousel } from 'flowbite-react';
-import { useAxios } from '../hooks/useAxios';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Carousel } from "flowbite-react";
+import { useAxios } from "../hooks/useAxios";
+import { Link } from "react-router-dom";
+import { DataLoading } from "./Loading/DataLoading";
 
 export function CarouselComponent() {
   const axiosCommon = useAxios();
@@ -11,14 +12,14 @@ export function CarouselComponent() {
     isPending,
     error,
   } = useQuery({
-    queryKey: ['trendingArticle'],
+    queryKey: ["trendingArticle"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get('/trendingArticles');
+      const { data } = await axiosCommon.get("/trendingArticles");
       return data;
     },
   });
 
-  if (isPending) return 'Loading';
+  if (isPending) return <DataLoading />;
 
   return (
     <div className="h-56 sm:h-[70vh]">
@@ -29,12 +30,15 @@ export function CarouselComponent() {
             className="flex items-center justify-center h-full"
             style={{
               backgroundImage: `url(${article.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
             }}
           >
-            <Link to={`/all-articles/${article._id}`} className="text-4xl bg-black p-3 underline text-white">
+            <Link
+              to={`/all-articles/${article._id}`}
+              className="text-4xl bg-black p-3 underline text-white"
+            >
               {article.title}
             </Link>
           </div>

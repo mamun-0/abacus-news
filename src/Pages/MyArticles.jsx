@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "../hooks/useAxiosSecure";
 import { useAuth } from "../hooks/useAuth";
 import { Helmet } from "react-helmet";
+import { DataLoading } from "../components/Loading/DataLoading";
 
 export function MyArticles() {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ export function MyArticles() {
     },
     enabled: !!user?.email,
   });
-  if (isPending) return "Loading...";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong!";
 
   return (
@@ -25,7 +26,11 @@ export function MyArticles() {
         <title>My Articles</title>
       </Helmet>
       <Heading title="My Articles" />
-      <ArticleTable data={data.data.message} refetch={refetch} />
+      {data?.data?.message?.length ? (
+        <ArticleTable data={data.data.message} refetch={refetch} />
+      ) : (
+        <h2 className="mt-4 text-xl text-red-600 text-center">Empty List</h2>
+      )}
     </div>
   );
 }

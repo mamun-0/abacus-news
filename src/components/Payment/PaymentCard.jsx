@@ -3,6 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { CheckoutForm } from "./CheckoutForm";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
+import { Spinner } from "flowbite-react";
 export function PaymentCard({ price, closeModal, days }) {
   const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState(false);
@@ -34,7 +35,7 @@ export function PaymentCard({ price, closeModal, days }) {
           />
         </Elements>
       ) : (
-        "Loading..."
+        <Spinner aria-label="Small spinner example" size="sm" />
       )}
     </div>
   );

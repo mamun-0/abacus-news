@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAxiosSecure } from "../../hooks/useAxiosSecure";
+import { Spinner } from "flowbite-react";
 
 export const CheckoutForm = ({ clientSecret, closeModal, days }) => {
   const stripe = useStripe();
@@ -73,7 +74,7 @@ export const CheckoutForm = ({ clientSecret, closeModal, days }) => {
         }}
       />
       {loading ? (
-        "Loading"
+        <Spinner aria-label="Small spinner example" size="sm" />
       ) : (
         <button
           disabled={!stripe || !clientSecret || !complete}

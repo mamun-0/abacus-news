@@ -6,6 +6,7 @@ import { Heading } from "../Heading/Heading";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import { DataLoading } from "../Loading/DataLoading";
 export function ArticleView() {
   const { user, loading } = useAuth();
   const [articles, setArticles] = useState([]);
@@ -60,7 +61,7 @@ export function ArticleView() {
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong.";
   return (
     <div>

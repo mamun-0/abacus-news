@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxios } from "../hooks/useAxios";
+import { DataLoading } from "./Loading/DataLoading";
 
 export function PublisherSection() {
   const axiosCommon = useAxios();
@@ -14,7 +15,7 @@ export function PublisherSection() {
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   return (
     <div className="mt-5 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3  place-items-center">
       {publishers.map((publisher) => {

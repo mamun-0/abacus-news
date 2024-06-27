@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxios } from "../hooks/useAxios";
 import CountUp from "react-countup";
+import { DataLoading } from "./Loading/DataLoading";
 
 export function StatisticSection() {
   const axiosCommon = useAxios();
@@ -15,7 +16,7 @@ export function StatisticSection() {
       return data;
     },
   });
-  if (isPending) return "Loading..";
+  if (isPending) return <DataLoading />;
   const background_1 = {
     background: `linear-gradient(45deg, #fad029 0%, #ff9a9e 100%)`,
   };

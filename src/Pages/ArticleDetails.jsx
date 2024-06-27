@@ -4,6 +4,7 @@ import { ArticleDetailsCard } from "../components/Article/ArticleDetailsCard";
 import { useQuery } from "@tanstack/react-query";
 import { Heading } from "../components/Heading/Heading";
 import { Helmet } from "react-helmet";
+import { DataLoading } from "../components/Loading/DataLoading";
 
 export function ArticleDetails() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export function ArticleDetails() {
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong!";
   return (
     <div>

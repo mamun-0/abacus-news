@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Spinner } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
+import { DataLoading } from "../Loading/DataLoading";
 
 const customStyles = {
   content: {
@@ -124,7 +125,7 @@ export function UpdateModal({
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong";
   // const publisherOptions = publishers.map((publisher) => ({
   //   value: publisher.name,

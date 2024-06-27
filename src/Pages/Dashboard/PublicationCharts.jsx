@@ -4,6 +4,7 @@ import { PiChart } from "../../components/Dashboard/PiChart";
 import { BarChart } from "../../components/Dashboard/BarChart";
 import { AreaChart } from "../../components/Dashboard/AreaChart";
 import { Heading } from "../../components/Heading/Heading";
+import { DataLoading } from "../../components/Loading/DataLoading";
 
 export function PublicationCharts() {
   const axiosSecure = useAxiosSecure();
@@ -25,7 +26,7 @@ export function PublicationCharts() {
       return acc;
     }, {});
   }
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong";
   return (
     <div>

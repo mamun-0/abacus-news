@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAxios } from "../hooks/useAxios";
 import { useAxiosSecure } from "../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import { DataLoading } from "../components/Loading/DataLoading";
 
 export function Article() {
   const { user } = useAuth();
@@ -36,7 +37,7 @@ export function Article() {
     },
     enabled: !!user,
   });
-  if (isPending) return "Loading...";
+  if (isPending) return <DataLoading />;
   if (articleObj.role === "admin" || articleObj.role === "premium")
     return (
       <div>

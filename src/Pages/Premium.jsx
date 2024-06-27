@@ -3,6 +3,7 @@ import { useAxiosSecure } from "../hooks/useAxiosSecure";
 import { PremiumArticleCard } from "../components/Article/PremiumArticleCard";
 import { Heading } from "../components/Heading/Heading";
 import { Helmet } from "react-helmet";
+import { DataLoading } from "../components/Loading/DataLoading";
 export function Premium() {
   const axiosSecure = useAxiosSecure();
   const {
@@ -16,7 +17,7 @@ export function Premium() {
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong.";
   return (
     <div>

@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { Spinner } from "flowbite-react";
 import { useQuery } from "@tanstack/react-query";
+import { DataLoading } from "../Loading/DataLoading";
 
 export function AddArticle({ uploadPhoto }) {
   const axiosSecure = useAxiosSecure();
@@ -80,7 +81,7 @@ export function AddArticle({ uploadPhoto }) {
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong";
 
   const publisherOptions = publishers.map((publisher) => ({

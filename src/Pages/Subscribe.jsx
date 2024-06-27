@@ -5,6 +5,7 @@ import { Heading } from "../components/Heading/Heading";
 import { Banner } from "../components/Payment/Banner";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import { DataLoading } from "../components/Loading/DataLoading";
 
 export function Subscribe() {
   const [filtered, setFiltered] = useState([]);
@@ -34,9 +35,7 @@ export function Subscribe() {
     return <SubscriptionCard key={item.id} {...item} />;
   });
 
-  if (isPending) {
-    return "Loading...";
-  }
+  if (isPending) return <DataLoading />;
   if (error) return "Something went worong";
 
   return (

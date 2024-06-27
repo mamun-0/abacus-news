@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../hooks/useAuth";
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
 import { useAxios } from "../hooks/useAxios";
+import { DataLoading } from "../components/Loading/DataLoading";
 
 export function PremiumRoute({ children }) {
   const { user, loading } = useAuth();
-  const location = useLocation();
   const axiosCommon = useAxios();
   const {
     data: userRole,
@@ -23,7 +22,7 @@ export function PremiumRoute({ children }) {
     },
     enabled: !loading,
   });
-  if (loading || isPending) return "Loading...";
+  if (loading || isPending) return <DataLoading />;
   if (userRole?.message === "premium" || userRole?.message === "admin") {
     return <React.Fragment>{children}</React.Fragment>;
   }

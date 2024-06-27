@@ -3,6 +3,7 @@ import { useAxiosSecure } from "../../hooks/useAxiosSecure";
 import { Heading } from "../../components/Heading/Heading";
 import { UsersTable } from "../../components/Dashboard/usersTable";
 import { Helmet } from "react-helmet";
+import { DataLoading } from "../../components/Loading/DataLoading";
 
 export function Users() {
   const axiosSecure = useAxiosSecure();
@@ -18,7 +19,7 @@ export function Users() {
       return data;
     },
   });
-  if (isPending) return "Loading";
+  if (isPending) return <DataLoading />;
   if (error) return "Something went wrong";
   async function handleAdmin(id) {
     return axiosSecure.put(`/user/admin/${id}`);
